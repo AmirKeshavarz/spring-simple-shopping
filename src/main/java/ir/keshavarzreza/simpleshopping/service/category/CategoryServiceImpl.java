@@ -16,6 +16,7 @@ import ir.keshavarzreza.simpleshopping.service.PaginationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -61,8 +62,12 @@ public class CategoryServiceImpl implements CategoryService {
 	public boolean delete(String id) throws CategoryAlreadyInUseException, CategoryNotFoundException {
 		if (!categoryRepository.existsById(id))
 			throw new CategoryNotFoundException();
-		// TODO: 2021-07-01 throw category in use exception
-		categoryRepository.deleteById(id);
+		try {
+			categoryRepository.deleteById(id);
+		}
+		catch (DataIntegrityViolationException e){
+			throw new CategoryAlreadyInUseException();
+		}
 		return true;
 	}
 
