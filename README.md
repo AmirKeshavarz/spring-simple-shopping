@@ -27,7 +27,7 @@ If you run simply default or h2 profile, then a h2 console will be available at 
 Spring-Security do his job in this project for access management. There are two Spring-security configs in the project which one of them is for development purposes and would be activated on h2 profile. In which some lower security is preferred for allowing users accessing into h2-console.
 
 
-##Key points for development contributions:
+## Key points for development contributions:
 * Latest release version of Spring-Boot is employed at the time of developing this sample project which is 2.5.2
     * You can upgrade SB if there is a newer release version
 

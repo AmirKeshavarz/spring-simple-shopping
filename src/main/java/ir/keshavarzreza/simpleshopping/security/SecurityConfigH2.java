@@ -30,6 +30,8 @@ public class SecurityConfigH2 extends WebSecurityConfigurerAdapter {
 					request.antMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll();
 					request.antMatchers(HttpMethod.GET, "/categories", "/categories/**").permitAll();
 					request.antMatchers(HttpMethod.GET, "/products", "/products/**").permitAll();
+					request.antMatchers(HttpMethod.POST, "/users").permitAll();
+
 				});
 		http.authorizeRequests((requests) -> {
 			((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl) requests.anyRequest()).authenticated();

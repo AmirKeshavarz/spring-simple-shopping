@@ -3,37 +3,37 @@ package ir.keshavarzreza.simpleshopping.domain.dto.user;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserRegistrationRequest {
+public class ChangePasswordRequest {
 
 	@NotBlank
-	@Size(min = 1, max = 50)
-	private String username;
+	@Size(min = 1, max = 100)
+	private String oldPassword;
 
 	@NotBlank
 	@Size(min = 0, max = 100)
-	private String password;
+	private String newPassword;
 
-	public UserRegistrationRequest() {
+	public ChangePasswordRequest() {
 	}
 
-	public UserRegistrationRequest(String username, String password) {
-		this.username = username;
-		this.password = password;
+	public ChangePasswordRequest(String username, String password) {
+		this.oldPassword = username;
+		this.newPassword = password;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getOldPassword() {
+		return oldPassword;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getNewPassword() {
+		return newPassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 }

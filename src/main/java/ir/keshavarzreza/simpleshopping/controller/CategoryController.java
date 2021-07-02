@@ -3,7 +3,6 @@ package ir.keshavarzreza.simpleshopping.controller;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import ir.keshavarzreza.simpleshopping.annotation.Pagination;
 import ir.keshavarzreza.simpleshopping.domain.dto.ApiPage;
 import ir.keshavarzreza.simpleshopping.domain.dto.ApiPagination;
 import ir.keshavarzreza.simpleshopping.domain.dto.category.CategoryDetail;
@@ -136,7 +135,6 @@ public class CategoryController {
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
 	})
-	@Pagination
 	public ResponseEntity<ApiPage<CategoryMaster>> findList(
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "parentId", required = false) String parentId,

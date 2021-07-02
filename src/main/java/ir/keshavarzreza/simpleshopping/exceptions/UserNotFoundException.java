@@ -1,2 +1,4 @@
-package ir.keshavarzreza.simpleshopping.exceptions;public class UserNotFoundException extends Exception {
+package ir.keshavarzreza.simpleshopping.exceptions;
+
+public class UserNotFoundException extends Exception {
 }

@@ -1,40 +1,60 @@
 package ir.keshavarzreza.simpleshopping.domain.dto.user;
 
 public class UserDetail {
-	private String id;
-	private String name;
-	private String family;
-	private String email;
+	private String username;
+	private boolean accountNonExpired;
+	private boolean accountNonLocked;
+	private boolean credentialsNonExpired;
+	private boolean enabled;
 
-	public String getId() {
-		return id;
+	public UserDetail() {
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public UserDetail(String username, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+		this.username = username;
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.enabled = enabled;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getFamily() {
-		return family;
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
 	}
 
-	public void setFamily(String family) {
-		this.family = family;
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
 	}
 
-	public String getEmail() {
-		return email;
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }
