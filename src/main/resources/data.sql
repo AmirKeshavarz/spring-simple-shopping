@@ -3,6 +3,10 @@ INSERT INTO CATEGORY(id,name,description,parent_id) values ('1','accessories','s
 INSERT INTO CATEGORY(id,name,description,parent_id) values ('2','laptop','some descriptions',null);
 INSERT INTO CATEGORY(id,name,description,parent_id) values ('3','gaming-laptop','some descriptions','2');
 
+-- PRODUCTS
+INSERT INTO PRODUCT(id,name,description,price,category_id) values ('1','ipad','some descriptions',1000,'1');
+INSERT INTO PRODUCT(id,name,description,price,category_id) values ('2','iphone','some descriptions',2000,'2');
+
 -- SECURITY
 INSERT INTO AUTHORITY(id,role) values ('1','admin');
 INSERT INTO AUTHORITY(id,role) values ('2','user');

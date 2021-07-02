@@ -6,7 +6,10 @@ import ir.keshavarzreza.simpleshopping.domain.dto.product.CreateProductRequest;
 import ir.keshavarzreza.simpleshopping.domain.dto.product.ProductMaster;
 import ir.keshavarzreza.simpleshopping.domain.dto.product.UpdateProductRequest;
 import ir.keshavarzreza.simpleshopping.domain.entity.Product;
-import ir.keshavarzreza.simpleshopping.exceptions.*;
+import ir.keshavarzreza.simpleshopping.exceptions.CategoryNotFoundException;
+import ir.keshavarzreza.simpleshopping.exceptions.ProductAlreadyExistsException;
+import ir.keshavarzreza.simpleshopping.exceptions.ProductNotFoundException;
+import ir.keshavarzreza.simpleshopping.exceptions.SortParameterHasProblomException;
 import ir.keshavarzreza.simpleshopping.repository.ProductRepository;
 import ir.keshavarzreza.simpleshopping.service.PageUtil;
 import ir.keshavarzreza.simpleshopping.service.PaginationService;
@@ -49,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 		if (productRepository.existsByNameAndCategoryId(request.getName(), request.getCategoryId()))
 			throw new ProductAlreadyExistsException();
 		// verify if category_id belongs to an existing category
-		if (!productRepository.existsById(request.getCategoryId()))
+		if (!categoryService.exists(request.getCategoryId()))
 			throw new CategoryNotFoundException();
 		Product productToPersist = new Product();
 		BeanUtils.copyProperties(request, productToPersist);
@@ -59,10 +62,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean delete(String id) throws ProductAlreadyInUseException, ProductNotFoundException {
+	public boolean delete(String id) throws ProductNotFoundException {
 		if (!productRepository.existsById(id))
 			throw new ProductNotFoundException();
-		// TODO: 2021-07-01 throw category in use exception
 		productRepository.deleteById(id);
 		return true;
 	}
@@ -74,11 +76,12 @@ public class ProductServiceImpl implements ProductService {
 		if (productRepository.existsByNameAndCategoryIdAndIdNot(request.getName(), request.getCategoryId(), id))
 			throw new ProductAlreadyExistsException();
 		// verify if category_id belongs to an existing category
-		if (!categoryService.exists(request.getCategoryId()))
+		if (request.getCategoryId() != null && !categoryService.exists(request.getCategoryId()))
 			throw new CategoryNotFoundException();
 		Product productToUpdate = new Product();
 		BeanUtils.copyProperties(request, productToUpdate);
-		productToUpdate.setCategory(categoryService.show(request.getCategoryId()));
+		if (request.getCategoryId() != null)
+			productToUpdate.setCategory(categoryService.show(request.getCategoryId()));
 		productToUpdate.setId(id);
 		Product updatedProduct = productRepository.save(productToUpdate);
 		return updatedProduct;
@@ -101,10 +104,12 @@ public class ProductServiceImpl implements ProductService {
 			all = productRepository.findAllByNameContainingAndCategoryIdEquals(name, categoryId, pageable);
 
 		List<ProductMaster> collect = all.stream()
-				.map(category -> new ProductMaster(
-						category.getId(),
-						category.getName(),
-						category.getCategory() != null ? category.getCategory().getId() : null))
+				.map(p -> new ProductMaster(
+						p.getId(),
+						p.getName(),
+						p.getCategory() != null ? p.getCategory().getId() : null,
+						p.getPrice())
+				)
 				.collect(Collectors.toList());
 
 		ApiPage<ProductMaster> apiPage = pageUtil.generateCorePage(all);

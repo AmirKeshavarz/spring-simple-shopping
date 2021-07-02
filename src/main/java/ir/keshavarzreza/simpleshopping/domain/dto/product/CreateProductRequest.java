@@ -1,7 +1,9 @@
 package ir.keshavarzreza.simpleshopping.domain.dto.product;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 public class CreateProductRequest {
 	@NotBlank
@@ -9,15 +11,19 @@ public class CreateProductRequest {
 	private String name;
 	@Size(min = 0 , max = 500)
 	private String description;
+	@NotBlank
+	@NotNull
 	private String categoryId;
+	private BigDecimal price;
 
 	public CreateProductRequest() {
 	}
 
-	public CreateProductRequest(String name, String description, String parentId) {
+	public CreateProductRequest(String name, String description, String categoryId, BigDecimal price) {
 		this.name = name;
 		this.description = description;
-		this.categoryId = parentId;
+		this.categoryId = categoryId;
+		this.price = price;
 	}
 
 	public String getName() {
@@ -42,5 +48,13 @@ public class CreateProductRequest {
 
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 }

@@ -15,10 +15,14 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CategoryService {
 	Category show(String id) throws CategoryNotFoundException;
+
 	Category create(CreateCategoryRequest request) throws CategoryAlreadyExistsException, CategoryNotFoundException;
+
 	boolean delete(String id) throws CategoryAlreadyInUseException, CategoryNotFoundException;
+
 	Category update(String id, UpdateCategoryRequest updateCategoryRequest) throws CategoryAlreadyExistsException, CategoryNotFoundException;
 
 	ApiPage<CategoryMaster> findList(String name, String parentId, ApiPagination pagination) throws SortParameterHasProblomException;
+
 	boolean exists(String id);
 }

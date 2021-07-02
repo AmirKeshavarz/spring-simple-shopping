@@ -1,10 +1,13 @@
 package ir.keshavarzreza.simpleshopping.domain.dto.product;
 
+import java.math.BigDecimal;
+
 public class ProductDetail {
 	private String id;
 	private String name;
 	private String description;
-	private String parentId;
+	private String categoryId;
+	private BigDecimal price;
 
 	public String getId() {
 		return id;
@@ -30,11 +33,19 @@ public class ProductDetail {
 		this.description = description;
 	}
 
-	public String getParentId() {
-		return parentId;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 }
