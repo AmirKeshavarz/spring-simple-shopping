@@ -14,6 +14,7 @@ import ir.keshavarzreza.simpleshopping.service.user.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,6 +35,7 @@ public class UserController {
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content),
 			@ApiResponse(responseCode = "404", description = "User not found", content = @Content)
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<UserDetail> show(
 			@PathVariable String username
 	) {
@@ -55,6 +57,7 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "User not found", content = @Content)
 			// 400 would be added by default by springdoc-openapi-ui
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity delete(
 			@PathVariable String username
 	) {
@@ -116,6 +119,7 @@ public class UserController {
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<ApiPage<UserDetail>> findList(
 			@RequestParam(name = "username", required = false) String username,
 			@RequestParam(name = "page", required = false, defaultValue = "0") int page,
@@ -139,6 +143,7 @@ public class UserController {
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity enable(
 			@PathVariable(name = "username", required = true) String username
 	) {
@@ -158,6 +163,7 @@ public class UserController {
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity disable(
 			@PathVariable(name = "username", required = true) String username
 	) {

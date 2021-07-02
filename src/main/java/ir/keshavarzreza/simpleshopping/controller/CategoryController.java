@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -64,6 +65,7 @@ public class CategoryController {
 			@ApiResponse(responseCode = "404", description = "Category not found", content = @Content)
 			// 400 would be added by default by springdoc-openapi-ui
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity delete(
 			@PathVariable String categoryId
 	) {
@@ -85,6 +87,7 @@ public class CategoryController {
 			@ApiResponse(responseCode = "404", description = "Parent category not found", content = @Content)
 			// 400 would be added by default by springdoc-openapi-ui
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<CategoryDetail> create(
 			@RequestBody @Valid CreateCategoryRequest createCategoryRequest
 	) {
@@ -110,6 +113,7 @@ public class CategoryController {
 			@ApiResponse(responseCode = "404", description = "Category or Parent-category not found", content = @Content)
 			// 400 would be added by default by springdoc-openapi-ui
 	})
+	@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<CategoryDetail> update(
 			@PathVariable String categoryId,
 			@Valid
