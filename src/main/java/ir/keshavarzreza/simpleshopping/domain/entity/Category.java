@@ -1,5 +1,6 @@
 package ir.keshavarzreza.simpleshopping.domain.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -15,7 +16,10 @@ public class Category extends BaseDomainEntity {
 	}
 
 	private String name;
+
+	@Column(length = 500)
 	private String description;
+
 	@OneToOne
 	private Category parent;
 

@@ -130,7 +130,7 @@ public class CategoryController {
 		CategoryDetail categoryDetail = new CategoryDetail();
 		BeanUtils.copyProperties(category, categoryDetail);
 		categoryDetail.setParentId(category.getParent() != null ? category.getParent().getId() : null);
-		return new ResponseEntity<CategoryDetail>(categoryDetail, HttpStatus.CREATED);
+		return new ResponseEntity<CategoryDetail>(categoryDetail, HttpStatus.OK);
 	}
 
 	@GetMapping("")

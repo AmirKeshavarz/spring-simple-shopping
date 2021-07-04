@@ -132,7 +132,7 @@ public class ProductController {
 		ProductDetail categoryDetail = new ProductDetail();
 		BeanUtils.copyProperties(product, categoryDetail);
 		categoryDetail.setCategoryId(product.getCategory() != null ? product.getCategory().getId() : null);
-		return new ResponseEntity<>(categoryDetail, HttpStatus.CREATED);
+		return new ResponseEntity<>(categoryDetail, HttpStatus.OK);
 	}
 
 	@GetMapping("")

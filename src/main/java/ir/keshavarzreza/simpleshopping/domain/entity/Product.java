@@ -1,9 +1,6 @@
 package ir.keshavarzreza.simpleshopping.domain.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -19,8 +16,11 @@ public class Product extends BaseDomainEntity {
 	}
 
 	private String name;
+
+	@Column(length = 500)
 	private String description;
 	private BigDecimal price;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Category category;
 

@@ -127,4 +127,9 @@ public class ProductServiceImpl implements ProductService {
 		apiPage.setContent(collect);
 		return apiPage;
 	}
+
+	@Override
+	public boolean existsById(String id) {
+		return productRepository.existsById(id);
+	}
 }

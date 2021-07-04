@@ -25,4 +25,6 @@ public interface ProductService {
 	Product update(String id, UpdateProductRequest updateProductRequest) throws ProductAlreadyExistsException, ProductNotFoundException, CategoryNotFoundException;
 
 	ApiPage<ProductMaster> findList(String name, String categoryId, BigDecimal minPrice, BigDecimal maxPrice, ApiPagination pagination) throws SortParameterHasProblomException;
+
+	boolean existsById(String id);
 }
