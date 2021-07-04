@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,9 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product show(String id) throws ProductNotFoundException {
-		return productRepository.findById(id).orElseThrow(() -> {
-			return new ProductNotFoundException();
-		});
+		return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 	}
 
 	@Override
@@ -57,8 +56,7 @@ public class ProductServiceImpl implements ProductService {
 		Product productToPersist = new Product();
 		BeanUtils.copyProperties(request, productToPersist);
 		productToPersist.setCategory(categoryService.show(request.getCategoryId()));
-		Product persistedProduct = productRepository.save(productToPersist);
-		return persistedProduct;
+		return  productRepository.save(productToPersist);
 	}
 
 	@Override
@@ -83,25 +81,38 @@ public class ProductServiceImpl implements ProductService {
 		if (request.getCategoryId() != null)
 			productToUpdate.setCategory(categoryService.show(request.getCategoryId()));
 		productToUpdate.setId(id);
-		Product updatedProduct = productRepository.save(productToUpdate);
-		return updatedProduct;
+		return productRepository.save(productToUpdate);
 	}
 
 	@Override
-	public ApiPage<ProductMaster> findList(String name, String categoryId, ApiPagination pagination) throws SortParameterHasProblomException {
+	public ApiPage<ProductMaster> findList(String name, String categoryId, BigDecimal minPrice, BigDecimal maxPrice, ApiPagination pagination) throws SortParameterHasProblomException {
 		Pageable pageable = paginationService.toPageable(pagination);
-		boolean filterByName = (name == null || name.isEmpty()) ? false : true;
-		boolean filterByCategoryId = (categoryId == null || categoryId.isEmpty()) ? false : true;
+		boolean filterByName = name != null && !name.isEmpty();
+		boolean filterByCategoryId = categoryId != null && !categoryId.isEmpty();
+		boolean filterByPrice = minPrice != null || maxPrice != null;
+		if (filterByPrice) {
+			if (minPrice == null) minPrice = BigDecimal.valueOf(0);
+			if (maxPrice == null) maxPrice = BigDecimal.valueOf(Double.MAX_VALUE);
+		}
 		Page<Product> all = null;
 
-		if (!filterByName && !filterByCategoryId)
+		if (!filterByName && !filterByCategoryId && !filterByPrice)
 			all = productRepository.findAll(pageable);
-		else if (filterByName && !filterByCategoryId)
+		else if (filterByName && !filterByCategoryId && !filterByPrice)
 			all = productRepository.findAllByNameContaining(name, pageable);
-		else if (!filterByName && filterByCategoryId)
+		else if (!filterByName && filterByCategoryId && !filterByPrice)
 			all = productRepository.findAllByCategoryIdEquals(categoryId, pageable);
-		else if (filterByName && filterByCategoryId)
+		else if (filterByName && filterByCategoryId && !filterByPrice)
 			all = productRepository.findAllByNameContainingAndCategoryIdEquals(name, categoryId, pageable);
+		else if (!filterByName && !filterByCategoryId && filterByPrice)
+			all = productRepository.findAllByPriceBetween(minPrice,maxPrice,pageable);
+		else if (filterByName && !filterByCategoryId && filterByPrice)
+			all = productRepository.findAllByNameContainingAndPriceBetween(name, minPrice, maxPrice, pageable);
+		else if (!filterByName && filterByCategoryId && filterByPrice)
+			all = productRepository.findAllByCategoryIdEqualsAndPriceBetween(categoryId, minPrice, maxPrice, pageable);
+		else if (filterByName && filterByCategoryId && filterByPrice)
+			all = productRepository.findAllByNameContainingAndCategoryIdEqualsAndPriceBetween(name, categoryId, minPrice, maxPrice, pageable);
+
 
 		List<ProductMaster> collect = all.stream()
 				.map(p -> new ProductMaster(

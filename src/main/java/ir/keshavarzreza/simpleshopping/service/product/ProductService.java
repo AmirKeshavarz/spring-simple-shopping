@@ -12,6 +12,8 @@ import ir.keshavarzreza.simpleshopping.exceptions.ProductNotFoundException;
 import ir.keshavarzreza.simpleshopping.exceptions.SortParameterHasProblomException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public interface ProductService {
 	Product show(String id) throws ProductNotFoundException;
@@ -22,5 +24,5 @@ public interface ProductService {
 
 	Product update(String id, UpdateProductRequest updateProductRequest) throws ProductAlreadyExistsException, ProductNotFoundException, CategoryNotFoundException;
 
-	ApiPage<ProductMaster> findList(String name, String categoryId, ApiPagination pagination) throws SortParameterHasProblomException;
+	ApiPage<ProductMaster> findList(String name, String categoryId, BigDecimal minPrice, BigDecimal maxPrice, ApiPagination pagination) throws SortParameterHasProblomException;
 }

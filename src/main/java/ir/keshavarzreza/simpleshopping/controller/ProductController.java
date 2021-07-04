@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/products")
@@ -48,7 +49,7 @@ public class ProductController {
 			@PathVariable String productId
 	) {
 		ProductDetail response = new ProductDetail();
-		Product product = null;
+		Product product;
 		try {
 			product = productService.show(productId);
 		} catch (ProductNotFoundException e) {
@@ -90,7 +91,7 @@ public class ProductController {
 	public ResponseEntity<ProductDetail> create(
 			@RequestBody @Valid CreateProductRequest createProductRequest
 	) {
-		Product product = null;
+		Product product;
 		try {
 			product = productService.create(createProductRequest);
 		} catch (ProductAlreadyExistsException e) {
@@ -101,7 +102,7 @@ public class ProductController {
 		ProductDetail productDetail = new ProductDetail();
 		BeanUtils.copyProperties(product, productDetail);
 		productDetail.setCategoryId(product.getCategory() != null ? product.getCategory().getId() : null);
-		return new ResponseEntity<ProductDetail>(productDetail, HttpStatus.CREATED);
+		return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{productId}")
@@ -118,7 +119,7 @@ public class ProductController {
 			@Valid
 			@RequestBody UpdateProductRequest request
 	) {
-		Product product = null;
+		Product product;
 		try {
 			product = productService.update(productId, request);
 		} catch (ProductAlreadyExistsException e) {
@@ -131,7 +132,7 @@ public class ProductController {
 		ProductDetail categoryDetail = new ProductDetail();
 		BeanUtils.copyProperties(product, categoryDetail);
 		categoryDetail.setCategoryId(product.getCategory() != null ? product.getCategory().getId() : null);
-		return new ResponseEntity<ProductDetail>(categoryDetail, HttpStatus.CREATED);
+		return new ResponseEntity<>(categoryDetail, HttpStatus.CREATED);
 	}
 
 	@GetMapping("")
@@ -143,6 +144,8 @@ public class ProductController {
 	public ResponseEntity<ApiPage<ProductMaster>> findList(
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "categoryId", required = false) String categoryId,
+			@RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
+			@RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
 			@RequestParam(name = "page", required = false, defaultValue = "0") int page,
 			@RequestParam(name = "size", required = false, defaultValue = "10") int size,
 			@RequestParam(name = "sort", required = false) String sort
@@ -151,7 +154,7 @@ public class ProductController {
 
 		ApiPage<ProductMaster> response;
 		try {
-			response = productService.findList(name, categoryId, pagination);
+			response = productService.findList(name, categoryId, minPrice, maxPrice, pagination);
 		} catch (SortParameterHasProblomException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sort problem");
 		}

@@ -16,9 +16,14 @@ Based on your preference you can select one of these profiles:
 <code>mvn spring-boot:run</code>. This command automatically activate h2 profile which runs a h2 instance in memory as the database. 
 * But if you want a more robust running with a prepared MySQL database, then you can call <code>mvn spring-boot:run -Dspring-boot.run.profiles=mysql</code>.   
 
-## Where to Go After Running
+## How to Use
 First, you should see Swagger documents on <a href="http://localhost:8080/swagger-ui.html">Your Local</a> to find out everything about running APIs. Then you can choose your preferred HTTP client. But we recommend Postman as we prepared its collection as mentioned above. We suppose this Swagger api-docs is intuitive enough to understand and try out APIs.
 <br>But the only thing that you must know here is that you need to call the API of user-registration at first for registering your account, and after that you would be able to call many other API's with your credentials.  
+<br>
+  There are two predefined users which you can use them for REST calls.<br>
+If you use Postman, then you can use these accounts in <a href="https://learning.postman.com/docs/sending-requests/authorization/#basic-auth">Postman Basic Auth</a>.
+* username: admin<br>password: password
+* username: user<br>password: password
 
 ## Accessing h2 Console
 If you run simply default or h2 profile, then a h2 console will be available at <a href="http://localhost:8080/h2-console">Your Localhost</a> where you can find graphical user interface for viewing and managing database.
