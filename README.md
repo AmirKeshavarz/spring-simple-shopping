@@ -1,6 +1,6 @@
 # Simple-Shopping RESTfull sample project with Spring-Boot
 
-This repository contains source code example of simple-shopping services.
+This repository contains source code example of simple-shopping services
 
 ## About Project Behaviour
 * At application startup - Hibernate do DDL related jobs for building database schema
